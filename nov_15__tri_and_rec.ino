@@ -5,8 +5,10 @@
 int rxPin = 10;        // from arduino(10) to roomba pin(4) white wire
 int txPin = 11;       // to arduino(11) from roomba pin(3) red wire
 int ddPin = 5;        // device detect used to wake up roomba
+int r;
+int l;
 
-char inByte = 0;       // sensro data read from serial buffer
+int inByte = 0;       // sensro data read from serial buffer
 int i = 0;            // byte counter for reading sensor data
 SoftwareSerial mySerial(rxPin, txPin);  // new port with 10rx and 11tx
                                   // this means pin 4 on roomba connects to pin 10 on arduino
@@ -43,10 +45,7 @@ void setup() {
   
   mySerial.write(131);      // put roomba into safe mode                           
   delay(10);
-   
-  int r;
-  int l;
-  
+
 //rectangle 2m x 1.5m
 
   r = 300;
@@ -57,55 +56,55 @@ void setup() {
   stopDrive();
   delay(10);
 
-//  r = 300;
-//  l = 10;
-//  
-//  driveWheels(r,l);
-//  delay(1300);
-//  stopDrive();
-//  delay(10);
-//
-//  r = 300;
-//  l = 300;
-//  
-//  driveWheels(r,l);
-//  delay(5000);
-//  stopDrive();
-//  delay(10);
-//
-//  r = 300;
-//  l = 10;
-//  
-//  driveWheels(r,l);
-//  delay(1300);
-//  stopDrive();
-//  delay(10);
-//
-//  r = 300;
-//  l = 300;
-//  
-//  driveWheels(r,l);
-//  delay(6666);
-//  stopDrive();
-//  delay(10);
-//  
-//  r = 300;
-//  l = 10;
-//  
-//  driveWheels(r,l);
-//  delay(1300);
-//  stopDrive();
-//  delay(10);
-//
-//  r = 300;
-//  l = 300;
-//  
-//  driveWheels(r,l);
-//  delay(5000);
-//  stopDrive();
-//  delay(10);
-//  
-//// triangle
+  r = 300;
+  l = 10;
+  
+  driveWheels(r,l);
+  delay(1460);
+  stopDrive();
+  delay(10);
+
+  r = 300;
+  l = 300;
+  
+  driveWheels(r,l);
+  delay(5000);
+  stopDrive();
+  delay(10);
+
+  r = 300;
+  l = 10;
+  
+  driveWheels(r,l);
+  delay(1460);
+  stopDrive();
+  delay(10);
+
+  r = 300;
+  l = 300;
+  
+  driveWheels(r,l);
+  delay(6666);
+  stopDrive();
+  delay(10);
+  
+  r = 300;
+  l = 10;
+  
+  driveWheels(r,l);
+  delay(1460);
+  stopDrive();
+  delay(10);
+
+  r = 300;
+  l = 300;
+  
+  driveWheels(r,l);
+  delay(5000);
+  stopDrive();
+  delay(10);
+  
+// triangle
 //
 //  r = 300;
 //  l = 300;
@@ -146,7 +145,7 @@ void setup() {
 //  delay(2000);
 //  stopDrive();
 //  delay(10);
-//
+////
 //  //circle
 //    int v;
 //    int radi;
@@ -158,21 +157,14 @@ void setup() {
 //  
 }
 void loop() {
- // put your main code here, to run repeatedly:
-   Serial.write(142); // requests the OI to send a packet of
-    // sensor data bytes
-    Serial.write(9); // request cliff sensor value specifically
+   mySerial.write(142); // requests the OI to send a packet of
+    mySerial.write(9); // request cliff sensor value specifically
     delay(250); // poll sensor 4 times a second
-    if (Serial.available() > 0) {
-        inByte = Serial.read();
-        if(inByte == '8')
-        {
-            goForward();
-        }
-        if(inByte == '5')
-            stopDrive();
-    }
-    Serial.println(inByte);
+    if (mySerial.available() > 0) {
+        inByte = mySerial.read();
+        Serial.println(inByte);  
+    }  
+
 } // end loop
  /* goForward sends the opcode 137 drive 
   *  the 4 bytes are
